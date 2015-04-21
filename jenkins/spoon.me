@@ -22,41 +22,42 @@ using gnu/wget,python/python:3.4.1,7-zip
 cmd mkdir c:\Workspace
 workdir c:\Workspace
 
-cmd wget --no-check-certificate --no-verbose -O jenkins.zip http://mirrors.jenkins-ci.org/windows/latest
+cmd wget --no-check-certificate --no-verbose http://mirrors.jenkins-ci.org/windows/latest
 
-cmd 7z x jenkins.zip
 cmd "dir > output.txt"
 
 batch
   echo import re >> getVersion.py
   echo f = open('output.txt', 'r') >> getVersion.py
-  echo print(re.findall('jenkins-(\d*\.\d*\.*\d*)\.msi', f.read() )[0]) >> getVersion.py
+  echo print(re.findall('jenkins-(\d*\.\d*\.*\d*)\.zip', f.read() )[0]) >> getVersion.py
 
 cmd python getVersion.py
-var version = $out
+var version = last
 
-cmd "jenkins-" + $version + ".msi /qn"
+cmd 7z x "jenkins-%version%.zip"
+
+cmd "jenkins.msi /qn"
 
 
 workdir @PROGRAMFILESX86@\jenkins
 
 cmd "mkdir plugins & echo 1"
 
-workdir @PROGRAMFILESX86@\jenkins\plugins
+workdir "@PROGRAMFILESX86@\jenkins\plugins"
 
 cmd wget --no-check-certificate https://updates.jenkins-ci.org/download/plugins/git/2.3.5/git.hpi
 cmd wget --no-check-certificate https://updates.jenkins-ci.org/download/plugins/git-client/1.16.1/git-client.hpi
 cmd wget --no-check-certificate https://updates.jenkins-ci.org/download/plugins/scm-api/0.2/scm-api.hpi
 cmd wget --no-check-certificate https://updates.jenkins-ci.org/download/plugins/matrix-project/1.4/matrix-project.hpi
 cmd wget --no-check-certificate https://updates.jenkins-ci.org/download/plugins/credentials/1.22/credentials.hpi
-cmd wget --no-check-certificate https://raw.githubusercontent.com/spoonapps/spoonme/master/jenkins/plugin/spoon-trigger.hpi
+cmd wget --no-check-certificate https://raw.githubusercontent.com/spoonapps/spoonme/master/jenkins/plugin/spoon.hpi
 
 ###################################
 # Environment Variables
 ###################################
 
 # Example: 
-env JENKINS_HOME=@PROGRAMFILESX86@\jenkins\
+env JENKINS_HOME="@PROGRAMFILESX86@\jenkins\"
 
 
 ###################################
@@ -75,9 +76,9 @@ cmd rmdir C:\python34 /s /q
 ###################################
 
 meta title="jenkins"
-meta namespace=jenkinsci
-meta name=jenkins
-meta tag=$version
+meta namespace="jenkinsci"
+meta name="jenkins"
+meta tag=version
 
 
 ###################################
