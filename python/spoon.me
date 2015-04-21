@@ -1,16 +1,29 @@
 #
-# python Spoon.me file
+# python spoon.me file
 # https://github.com/spoonapps/spoonme/tree/master/python
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
 
-using wget,7-zip
+###################################
+# Pull dependency images
+###################################
 
+using gnu/wget,7-zip/7-zip
+
+
+###################################
+# Download and install
+###################################
+
+# Set working directory
 cmd mkdir c:\Workspace
 workdir c:\Workspace
 
+# Get version
 batch
  echo import sys > getRelease.py
  echo import requests >> getRelease.py
