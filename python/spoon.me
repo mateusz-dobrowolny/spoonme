@@ -38,42 +38,47 @@ using python:3.4.1
  cmd pip install requests --quiet
 
  cmd python getRelease.py
+ var data = last
 
- var data = $out
-
-
-
- cmd "python -c ""print(" + $data + "[0])"""
-
- var url = $out
+ cmd "python -c ""print(%data%[0])"""
+ var url = last
 
 
- cmd "python -c ""print(" + $data + "[1])"""
+ cmd "python -c ""print(%data%[1])"""
+ var tag = last
 
- var tag = $out
+ cmd "python -c ""print(%data%[2])"""
+ var version = last
 
-
- cmd "python -c ""print(" + $data + "[2])"""
-
- var version = $out
-
- cmd "wget -O python.msi --no-check-certificate + " $url
+ cmd "wget -O python.msi --no-check-certificate %url%"
  
- env path = "c:\" + $version + ";c:\" + $version + "\scripts"
+ env path = "c:\" + version + ";c:\" + version + "\scripts"
 
- meta title="Python"
- meta namespace=python 
- meta name=python 
- meta tag=$tag
-
+# Install
 cmd rmdir c:\Python34 /s /q
-
-#cmd python
-
 cmd "python.msi /qn"
+
+
+###################################
+# Clean up
+###################################
 
 workdir c:\
 
 cmd rmdir c:\Workspace /s /q
 cmd rmdir c:\wget /s /q
 
+
+###################################
+# Meta tags
+###################################
+
+ meta title="Python"
+ meta namespace="python"
+ meta name="python" 
+ meta tag=tag
+
+
+###################################
+# Startup File
+###################################
