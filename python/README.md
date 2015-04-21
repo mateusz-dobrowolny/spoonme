@@ -7,5 +7,5 @@ Build using:
 To test:
     
     spoon try -a python:3.4.3
-    (15f315b2) c:\>python --version
+    (15f315b2) c:\> python --version
     Python 3.4.3
