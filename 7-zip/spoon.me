@@ -19,7 +19,7 @@ meta name="7-zip"
 # Pull dependency images
 ###################################
 
-using gnu/wget
+using gnu/wget,python/python:3.4.1,7-zip/7-zip
 
 ###################################
 # Download and install
@@ -28,7 +28,41 @@ using gnu/wget
 # Set working directory
 workdir C:\
 
+# Get version
+batch 
+  echo import requests >> getVer.py 
+  echo import re >> getVer.py 
+  echo r = requests.get('http://sourceforge.net/projects/sevenzip/files/') >> getVer.py 
+  echo url = ''.join(list(re.findall('(<span>Download 7z(\d*)-extra.7z)', r.text)[0][1])) >> getVer.py 
+  echo print(ver) >> getVer.py 
+
+cmd python getUrl.py
+var tag = last
+echo tag
+
+# Get URL from web
+batch 
+  echo import requests >> getUrl.py 
+  echo import re >> getUrl.py 
+  echo r = requests.get('http://www.videolan.org/vlc') >> getUrl.py 
+  echo url = ''.join(list(re.findall('(get.videolan.org\/vlc\/.*exe)', r.text)[0])) >> getUrl.py 
+  echo print('http://sourceforge.net/projects/sevenzip/files/' + url) >> getUrl.py 
+# 
+# cmd python getUrl.py
+# var url = last
+
+
+
+
+
 # Download
+# Example: using wget
+# 
+# using gnu/wget:1.11.4
+# cmd wget --no-check-certificate --no-verbose -O Setup.exe http://notepad-plus-plus.org/download/
+
+
+# Download	
 cmd wget.exe http://downloads.sourceforge.net/sevenzip/7z920.exe
 tag = "9.20"
 
