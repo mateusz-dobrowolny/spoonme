@@ -2,7 +2,7 @@
 # 7-Zip spoon.me file
 # https://github.com/spoonapps/spoonme/blob/master/7-zip/spoon.me
 #
-# Created with Spoon CMD version 1.4.1171.0
+# Created with Spoon CMD version 1.4.1355.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -50,7 +50,7 @@ batch
   find /c "%tag%" existing_versions.txt
   if %errorlevel% equ 0 copy null.txt null.txt
 
-# Get Url
+# Get Url from web
 batch
   echo import requests >> getUrl.py
   echo import re >> getUrl.py
@@ -62,16 +62,19 @@ cmd python getUrl.py
 var url = last
 
 # Download
-cmd wget.exe -O 7zip.exe %url% --no-check-certificate
+cmd wget.exe --no-check-certificate --no-verbose -O 7zip.exe %url% 
 
 # Install
 cmd 7zip.exe /S 
+
+# Update
 
 ###################################
 # Environment Variables
 ###################################
 
 env path="@PROGRAMFILESX86@\7-zip"
+
 
 ###################################
 # Clean up
@@ -83,8 +86,9 @@ cmd rmdir c:\Workspace /s /q
 cmd rmdir c:\wget /s /q
 cmd rmdir c:\python34 /s /q
 
+
 ###################################
-# Version
+# Meta tags
 ###################################
 
 meta tag=tag
@@ -95,4 +99,3 @@ meta version=tag
 ###################################
 
 startup file ("@PROGRAMFILESX86@\7-zip\7zFM.exe")
-
