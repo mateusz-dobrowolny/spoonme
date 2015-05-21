@@ -45,7 +45,7 @@ cmd python getVer.py
 var tag = last
 
 # Check if version exists. If yes - break the process
-cmd spoon tags 7-zip/7-zip >> existing_versions.txt
+cmd spoon tags dobrowolny/7-zip >> existing_versions.txt
 batch
   find /c "%tag%" existing_versions.txt
   if %errorlevel% equ 0 copy null.txt null.txt
