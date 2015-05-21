@@ -20,36 +20,12 @@
 # Download and install
 ###################################
 
+# Install additional python modules
+# cmd pip install requests --quiet
+
 # Set working directory
 cmd mkdir c:\Workspace
 workdir c:\Workspace
-
-# Get URL from web
-# Example: using python
-# 
-# cmd pip install requests --quiet
-# 
-# batch 
-#   echo import requests >> getUrl.py 
-#   echo import re >> getUrl.py 
-#   echo r = requests.get('http://www.videolan.org/vlc') >> getUrl.py 
-#   echo url = ''.join(list(re.findall('(get.videolan.org\/vlc\/.*exe)', r.text)[0])) >> getUrl.py 
-#   echo print(url) >> getUrl.py 
-# 
-# cmd python getUrl.py
-# var url = last
-# cmd echo %url%
-
-# Download
-# Example: using wget
-# 
-# using gnu/wget:1.11.4
-# cmd wget --no-check-certificate --no-verbose -O Setup.exe http://notepad-plus-plus.org/download/
-
-# Install
-
-
-# Update
 
 # Get version
 # Example 1: from file using python
@@ -84,6 +60,37 @@ workdir c:\Workspace
 # cmd python getVersion.py
 # var version = last
 
+# Check if version exists. If yes - break the process
+cmd spoon tags 7-zip/7-zip >> existing_versions.txt
+batch
+  find /c "%tag%" existing_versions.txt
+  if %errorlevel% equ 0 copy null.txt null.txt
+
+# Get URL from web
+# Example: using python
+# 
+# cmd pip install requests --quiet
+# 
+# batch 
+#   echo import requests >> getUrl.py 
+#   echo import re >> getUrl.py 
+#   echo r = requests.get('http://www.videolan.org/vlc') >> getUrl.py 
+#   echo url = ''.join(list(re.findall('(get.videolan.org\/vlc\/.*exe)', r.text)[0])) >> getUrl.py 
+#   echo print(url) >> getUrl.py 
+# 
+# cmd python getUrl.py
+# var url = last
+
+# Download
+# Example: using wget
+# 
+# using gnu/wget:1.11.4
+# cmd wget --no-check-certificate --no-verbose -O Setup.exe http://notepad-plus-plus.org/download/
+
+# Install
+
+# Update
+
 
 ###################################
 # Environment Variables
@@ -100,8 +107,8 @@ workdir c:\Workspace
 workdir c:\
 
 # cmd rmdir c:\Workspace /s /q
-# cmd rmdir C:\wget /s /q
-# cmd rmdir C:\python34 /s /q
+# cmd rmdir c:\wget /s /q
+# cmd rmdir c:\python34 /s /q
 
 
 ###################################
