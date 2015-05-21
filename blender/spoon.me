@@ -1,37 +1,50 @@
 #
-# Ghost Spoon.me file
-# https://github.com/spoonium/spoonme/tree/master/ghost
+# Ghost spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/blender/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
+
+###################################
+# Meta tags
+###################################
+
+meta title="blender"
+meta namespace="dobrowolny"
+meta name="blender"
 
 
 ###################################
 # Pull dependency images
 ###################################
+
 from clean
+
 using wget,7-zip
+
+
+###################################
+# Image settings
+###################################
+
 
 ###################################
 # Download and install
 ###################################
 
-# set working directory
+# Set working directory
 workdir c:\
 
 # Download zip
 cmd wget.exe http://mirror.cs.umn.edu/blender.org/release/Blender2.73/blender-2.73-windows32.zip
 
-# set working directory
-workdir @PROGRAMFILES@
-
 # extract to working folder
+workdir @PROGRAMFILES@
 cmd 7z x c:\blender-2.73-windows32.zip 
+var tag = "2.73"
 
-###################################
-# Startup File
-###################################
-startup file ("@PROGRAMFILES@\Blender-2.73-windows32\blender-app.exe")
 
 ###################################
 # Environment Variables
@@ -39,7 +52,24 @@ startup file ("@PROGRAMFILES@\Blender-2.73-windows32\blender-app.exe")
 
 # No variables needed
 
+
 ###################################
 # Clean up
 ###################################
+
 cmd del C:\blender-2.73-windows32.zip /Q
+
+
+###################################
+# Version
+###################################
+
+meta tag=tag
+meta version=tag
+
+
+###################################
+# Startup File
+###################################
+
+startup file ("@PROGRAMFILES@\Blender-2.73-windows32\blender-app.exe")

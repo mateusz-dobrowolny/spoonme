@@ -1,14 +1,34 @@
 #
-# Ant Spoon.me file
-# https://github.com/spoonapps/spoonme/tree/master/ant
+# Ant spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/ant/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+###################################
+# Meta tags
+###################################
+
+meta title="Ant"
+meta namespace="dobrowolny"
+meta name="ant"
+
+###################################
+# Pull dependency images
+###################################
+
 using wget,python:3.4.1,7-zip
+
+
+###################################
+# Download and install
+###################################
 
 cmd pip install requests --quiet
 
+# Set working directory
 cmd mkdir c:\Workspace
 workdir c:\Workspace
 
@@ -32,15 +52,34 @@ cmd "wget -O ant.zip --no-check-certificate %url%"
 
 cmd "7z x ant.zip -oC:\Ant"
 
+
+###################################
+# Environment Variables
+###################################
+
 env PATH = "c:\Ant\apache-ant-" + tag + "\bin" 
+
+
+###################################
+# Clean up
+###################################
 
 workdir c:\
 
 cmd rmdir c:\Workspace /s /q
 cmd rmdir c:\wget /s /q
-cmd rmdir c:\Python34 /s /q
+cmd rmdir c:\python34 /s /q
 
-meta title="Ant"
-meta namespace="apache"
-meta name="ant"
+###################################
+# Version
+###################################
+
 meta tag=tag
+meta version=tag
+
+
+###################################
+# Startup File
+###################################
+
+# No startup file

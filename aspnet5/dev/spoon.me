@@ -1,30 +1,26 @@
-# 
-# Apache Directory Studio spoon.me file
-# https://github.com/spoonapps/spoonme/blob/master/apache-directory/studio/spoon.me
+#
+# ASP.NET 5 dev (vNext) spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/aspnet5/dev/spoon.me
 #
 # Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
-
 ###################################
 # Meta tags
 ###################################
 
-meta title="ApacheDirectoryStudio"
+meta title="ASPNET5-dev"
 meta namespace="dobrowolny"
-meta name="studio"
-
+meta name="aspnet5-dev"
 
 ###################################
 # Pull dependency images
 ###################################
 
-from clean,jre:8.0
+using python/python:3.4.1,powershell
 
-# Temporary dependencies during build
-using gnu/wget
 
 ###################################
 # Image settings
@@ -36,39 +32,50 @@ using gnu/wget
 ###################################
 
 # Set working directory
-cmd mkdir c:\WorkingDir
-workdir c:\WorkingDir
+cmd mkdir c:\Workspace
+workdir c:\Workspace
 
 # Download
-cmd wget --no-check-certificate --no-verbose -O studio.exe http://mirror.apache-kr.org//directory/studio/dist/2.0.0.v20130628/ApacheDirectoryStudio-win32-x86-2.0.0.v20130628.exe
+cmd "@powershell -NoProfile -ExecutionPolicy unrestricted -Command ""&{$Branch='dev';iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.ps1'))}"""
 
-# Install
-cmd echo "No silent install? Just accept the defaults for now?"
-cmd studio.exe
+# Install unstable version
+cmd dnvm upgrade -u
 
-vat tag = "2.0.0.v20130628"
+# Get version
+cmd dnvm list > output.txt & echo 1
+
+batch
+  echo import re >> getVersion.py
+  echo f = open('output.txt', 'r') >> getVersion.py
+  echo print(re.findall('\s(\d*\.\d*\.\d*\.*\d*-.*?)\s', f.read() )[0]) >> getVersion.py
+
+cmd python getVersion.py
+var version = last
 
 ###################################
 # Environment Variables
 ###################################
 
+# not needed
 
 
 ###################################
 # Clean up
 ###################################
 
+workdir c:\
+
+cmd rmdir c:\Workspace /s /q
+cmd rmdir c:\python34 /s /q
+
 
 ###################################
 # Version
 ###################################
 
-meta tag=tag
-meta version=tag
-
+meta tag=version
+meta version=version
 
 ###################################
 # Startup File
 ###################################
-
-startup file ("C:\Program Files\Apache Directory Studio\Apache Directory Studio.exe")

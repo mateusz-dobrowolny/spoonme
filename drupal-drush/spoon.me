@@ -1,8 +1,41 @@
-# Automatically build Drupal with Drush image
- 
+#
+# Drupal Drush spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/drupal-drush/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
+#
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+###################################
+# Meta tags
+###################################
+
+meta title="Drupal Drush"
+meta namespace="dobrowolny"
+meta name="drupal-drush"
+
+
+###################################
 # Pull dependency images
+###################################
+ 
 from drupal
 using git,fart 
+
+
+###################################
+# Image settings
+###################################
+
+meta description="Drupal with Drush"
+
+
+###################################
+# Download and install
+###################################
+
+# Automatically build Drupal with Drush image
  
 # Enable SSL in PHP
 cmd fart -V "c:\php\php.ini" ";extension=php_openssl.dll" "extension=php_openssl.dll" & cd \
@@ -22,7 +55,28 @@ cmd mkdir c:\drush
 workdir c:\drush
 cmd composer global require drush/drush:dev-master
 cmd echo @%HOMEDRIVE%%HOMEPATH%\AppData\Roaming\Composer\vendor\bin\drush.php.bat %* > drush.bat
+var tag = "1.0"
+
+
+###################################
+# Environment Variables
+###################################
+
 env PATH=c:\drush
-meta title="Drupal Drush"
-meta description="Drupal with Drush"
-meta version="1.0"
+
+###################################
+# Clean up
+###################################
+
+
+###################################
+# Version
+###################################
+
+meta tag=tag
+meta version=tag
+
+
+###################################
+# Startup File
+###################################

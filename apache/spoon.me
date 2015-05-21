@@ -1,16 +1,26 @@
 #
-# Apache Spoon.me file
-# https://github.com/spoonium/spoonme/tree/master/apache
+# Apache spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/apache/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+###################################
+# Meta tags
+###################################
+
+meta title="apache"
+meta namespace="dobrowolny"
+meta name="apache"
 
 ###################################
 # Pull dependency images
 ###################################
 
 from microsoft/vcredist:2012
+
 using gnu/wget,7-zip/7-zip,python/python:3.4.1,gnu/sed
 
 
@@ -22,10 +32,12 @@ var port = "8080"
 var email = "admin@localhost"
 var intalldir = "C:\\apache\\apache2"
 
+
 ###################################
 # Download and install
 ###################################
 
+# Install additional python modules
 cmd pip install requests --quiet
 
 # Set working directory
@@ -82,16 +94,12 @@ cmd rmdir c:\Workspace /s /q
 cmd rmdir c:\wget /s /q
 cmd rmdir c:\python34 /s /q
 
-
 ###################################
-# Meta tags
+# Version
 ###################################
 
-meta title="apache"
-meta name="apache"
-meta namespace="apache"
 meta tag=tag 
-
+meta version=tag 
 
 ###################################
 # Startup File

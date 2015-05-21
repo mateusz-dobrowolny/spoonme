@@ -1,11 +1,37 @@
 #
-# Chromium Canary Spoon.me file
-# https://github.com/spoonapps/spoonme/tree/master/chromium
+# Chromium Canary spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/chromium/canary/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+###################################
+# Meta tags
+###################################
+
+meta title="Chromium Canary"
+meta namespace="dobrowolny"
+meta name="chromium-canary"
+
+
+###################################
+# Pull dependency images
+###################################
+
 using clean,python:3.4.1,pip,wget,7-zip
+
+
+###################################
+# Image settings
+###################################
+
+
+###################################
+# Download and install
+###################################
+
 
 workdir c:\
 
@@ -24,10 +50,18 @@ batch cmd
 	rmdir c:\Python34 /s /q
 	rmdir c:\wget /s /q
 	
-meta title="Chromium Canary"
-meta namespace="google"
-meta name="chromium-canary"
+
+###################################
+# Version
+###################################
+
 meta tag=dateiso
 meta website="%DOWNLOAD_URL%"
 meta version="%DATE%"
+
+
+###################################
+# Startup File
+###################################
+
 startup file ("c:\Chromium\chrome.exe")

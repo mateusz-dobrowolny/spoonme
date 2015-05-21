@@ -1,18 +1,25 @@
 #
-# 7-Zip Spoon.me file
-# https://github.com/spoonium/spoonme/tree/master/7-zip
+# 7-Zip spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/7-zip/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+###################################
+# Meta tags
+###################################
+
+meta title="7-zip"
+meta namespace="dobrowolny"
+meta name="7-zip"
 
 ###################################
 # Pull dependency images
 ###################################
 
-from clean
-using wget
-
+using gnu/wget
 
 ###################################
 # Download and install
@@ -23,10 +30,10 @@ workdir C:\
 
 # Download
 cmd wget.exe http://downloads.sourceforge.net/sevenzip/7z920.exe
+tag = "9.20"
 
 # Install
 cmd 7z920.exe /S 
-
 
 ###################################
 # Environment Variables
@@ -34,6 +41,18 @@ cmd 7z920.exe /S
 
 env path="@PROGRAMFILESX86@\7-zip"
 
+###################################
+# Clean up
+###################################
+
+cmd del C:\7z920.exe /Q
+
+###################################
+# Version
+###################################
+
+meta tag=tag
+meta version=tag
 
 ###################################
 # Startup File
@@ -41,9 +60,3 @@ env path="@PROGRAMFILESX86@\7-zip"
 
 startup file ("@PROGRAMFILESX86@\7-zip\7zFM.exe")
 
-
-###################################
-# Clean up
-###################################
-
-cmd del C:\7z920.exe /Q

@@ -1,16 +1,24 @@
 #
-# Anaconda3 Spoon.me file
-# https://github.com/spoonium/spoonme/tree/master/anaconda3
+# Anaconda3 spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/anaconda3/spoon.me
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
+
+###################################
+# Meta tags
+###################################
+
+meta title="Anaconda3"
+meta namespace="dobrowolny"
+meta name="anaconda3"
 
 
 ###################################
 # Pull dependency images
 ###################################
 
-from clean
+
 using gnu/wget,fart/fart
 
 
@@ -23,6 +31,7 @@ workdir C:\
 
 # Download
 cmd wget.exe http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Windows-x86.exe -O Anaconda3-2.1.0-Windows-x86.exe
+tag = "2.1.0"
 
 # Install
 cmd Anaconda3-2.1.0-Windows-x86.exe /S "/D=C:\Anaconda3"
@@ -42,6 +51,21 @@ batch cmd
 
 
 ###################################
+# Clean up
+###################################
+
+cmd del C:\Anaconda3-2.1.0-Windows-x86.exe /Q
+
+
+###################################
+# Version
+###################################
+
+meta tag=tag
+meta version=tag
+
+
+###################################
 # Startup File
 ###################################
 
@@ -49,10 +73,3 @@ batch cmd
 startup file ("@PROGRAMS@\Anaconda (32-bit)\Anaconda Command Prompt.lnk")
 # startup file ("@PROGRAMS@\Anaconda (32-bit)\Launcher.lnk")
 # startup file ("@PROGRAMS@\Anaconda (32-bit)\Spyder.lnk")
-
-
-###################################
-# Clean up
-###################################
-
-cmd del C:\Anaconda3-2.1.0-Windows-x86.exe /Q

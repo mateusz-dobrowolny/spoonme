@@ -1,29 +1,83 @@
 #
 # Apache DS Server spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/apache-directory/server/spoon.me
+
+# Created with Spoon CMD version 1.4.1171.0
+#
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+
+###################################
+# Meta tags
 ###################################
 
+meta title="ApacheDS server"
+meta namespace="dobrowolny"
+meta name="server"
 
+
+###################################
 # Pull dependency images
+###################################
+
 # 7zip is used to work around spoon bugs =(
 from jre:8.0,7-zip/7-zip
 
 # Temporary dependencies during build
 using gnu/wget
 
+
+###################################
+# Image settings
+###################################
+
+
+###################################
+# Download and install
+###################################
+
+# Set working directory
 cmd mkdir c:\WorkingDir
 workdir c:\WorkingDir
 
+# Download
 cmd wget --no-check-certificate --no-verbose -O apacheds.zip http://apache.mirror.cdnetworks.com//directory/apacheds/dist/2.0.0-M19/apacheds-2.0.0-M19.zip
 cmd 7z x apacheds.zip -oc:\
 cmd rename C:\apacheds-2.0.0-M19 ApacheDS
+var tag = "2.0.0-M19"
+
+
+###################################
+# Environment Variables
+###################################
+
+# No variables needed
+
+
+###################################
+# Clean up
+###################################
+
 workdir c:\ApacheDS
 cmd del /Q C:\WorkingDir
-
 
 # Back up instances template....we will restore it on startup
 # so that we can mount the data, yet have the examples
 cmd 7z a instances instances
 cmd rename instances instances-backup
+
+
+###################################
+# Version
+###################################
+
+meta tag=tag
+meta version=tag
+
+###################################
+# Startup File
+###################################
 
 # Show a nice promt when you startup the container
 copy spoon-startup.bat c:\ApacheDS\spoon-startup.bat

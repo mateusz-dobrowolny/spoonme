@@ -1,16 +1,33 @@
 #
-# Chocolatey chocolatey.me file
-# https://github.com/spoonium/spoonme/tree/master/chocolatey
+# Chocolatey spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/chocolatey/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
+
+###################################
+# Meta tags
+###################################
+
+meta title="Chocolatey"
+meta namespace="dobrowolny"
+meta name="chocolatey"
 
 ###################################
 # Pull dependency images
 ###################################
 
 from microsoft/dotnet:4.0.3
+
 using python/python:3.4.1
+
+
+###################################
+# Image settings
+###################################
+
 
 ###################################
 # Download and install
@@ -20,13 +37,15 @@ using python/python:3.4.1
 cmd mkdir c:\Workspace
 workdir c:\Workspace
 
+# Install
 cmd "@powershell -NoProfile -ExecutionPolicy unrestricted -Command ""(iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))) >$null 2>&1"" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
-# Update chocolatey
+# Update
 batch
   chocolatey update -y
   echo 1
 
+# Get version
 cmd chocolatey > output.txt & echo 1
 
 batch
@@ -35,7 +54,7 @@ batch
   echo print(re.findall('Chocolatey v(\d*\.\d*\.\d*\.\d*)', f.read() )[0]) >> getVersion.py
 
 cmd python getVersion.py
-var version = last
+var tag = last
 
 ###################################
 # Environment Variables
@@ -51,21 +70,18 @@ var version = last
 workdir c:\
 
 cmd rmdir c:\Workspace /s /q
-cmd rmdir C:\python34 /s /q
-
+cmd rmdir c:\python34 /s /q
 
 ###################################
-# Meta tags
+# Version
 ###################################
 
-meta title="Chocolatey"
-meta namespace="chocolatey"
-meta name="chocolatey"
-meta tag=version
+meta tag=tag
+meta version=tag
 
 
 ###################################
 # Startup File
 ###################################
 
-# startup file ("cmd","/k echo Chocolatey version: ", version)
+# startup file ("cmd","/k echo Chocolatey version: ", tag)

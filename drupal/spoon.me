@@ -1,28 +1,46 @@
 #
-# Drupal Drupal.me file
-# https://github.com/spoonapps/spoonme/tree/master/drupal
+# Drupal spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/drupal/spoon.me
+#
+# Created with Spoon CMD version 1.4.1171.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
+###################################
+# Meta tags
+###################################
+
+meta title="Drupal"
+meta namespace="dobrowolny"
+meta name="drupal"
 
 ###################################
 # Pull dependency images
 ###################################
 
 from apache/apache,php/php,mysql/mysql
+
 using gnu/wget,fart/fart,7-zip/7-zip,python/python:3.4.1
+
+
+###################################
+# Image settings
+###################################
+
 
 ###################################
 # Download and install
 ###################################
 
+# Install additional python modules
 cmd pip install requests --quiet
 
 # Set working directory
 cmd mkdir c:\Workspace
 workdir c:\Workspace
 
+# Get version
 batch
   echo import requests >> getVersion.py
   echo import re >> getVersion.py
@@ -32,6 +50,8 @@ batch
 
 cmd python getVersion.py
 var version = last
+
+# Get url
 var url = "http://ftp.drupal.org/files/projects/drupal-" + version + ".zip"
 
 # Download
@@ -51,6 +71,8 @@ cmd rmdir c:\drupal-temp /S /Q
 cmd "copy" c:\drupal\sites\default\default.settings.php c:\drupal\sites\default\settings.php
 cmd fart.exe c:\drupal\sites\default\settings.php "$databases = array();" "$databases = array ('default' => array ('default' => array ('database' => 'drupal','username' => 'root','password' => '','host' => 'localhost','port' => '','driver' => 'mysql','prefix' => '',),),);" & ver > nul
 
+cmd fart.exe c:\drupal\.htaccess "Order allow,deny" "Require all denied" & ver > nul
+
 ###################################
 # Initialize Apache
 ###################################
@@ -61,13 +83,13 @@ batch cmd
   echo. >> httpd.conf
   
   REM Enable PHP
-  echo LoadModule php5_module "C:/php/php5apache2_2.dll">> httpd.conf
+  echo LoadModule php5_module "C:/php/php5apache2_4.dll">> httpd.conf
   echo AddHandler application/x-httpd-php .php>> httpd.conf
   echo PHPIniDir "C:/php">> httpd.conf
   fart.exe --ignore-case httpd.conf "DirectoryIndex " "DirectoryIndex index.php "
   
   REM Set document root to Drupal directory
-  fart.exe --ignore-case httpd.conf "C:/apache/apache2/htdocs" "C:/drupal"
+  fart.exe --ignore-case httpd.conf "${SRVROOT}/htdocs" "C:/drupal"
   
   REM Enable mod rewrite for pretty links
   fart.exe --ignore-case httpd.conf "#LoadModule rewrite_module modules/mod_rewrite.so" "LoadModule rewrite_module modules/mod_rewrite.so"
@@ -153,13 +175,11 @@ cmd rmdir c:\python34 /s /q
 
 
 ###################################
-# Meta tags
+# Version
 ###################################
 
-meta title="Drupal"
-meta namespace="drupal"
-meta name="drupal"
 meta tag=version
+meta version=version
 
 
 ###################################
@@ -167,4 +187,4 @@ meta tag=version
 ###################################
 
 workdir C:\drupal
-startup file ("cmd","/k echo Visit http://localhost:%spn_config_Apache-Port%/install.php to configure Drupal, if you haven't already.")
+startup file ("cmd","/k echo Visit http://localhost:8080/install.php to configure Drupal, if you haven't already.")
