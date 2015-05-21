@@ -2,6 +2,8 @@
 # Anaconda3 spoon.me file
 # https://github.com/spoonapps/spoonme/blob/master/anaconda3/spoon.me
 #
+# Created with Spoon CMD version 1.4.1355.0
+#
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
@@ -18,7 +20,6 @@ meta name="anaconda3"
 # Pull dependency images
 ###################################
 
-
 using gnu/wget,fart/fart
 
 
@@ -30,8 +31,8 @@ using gnu/wget,fart/fart
 workdir C:\
 
 # Download
-cmd wget.exe http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Windows-x86.exe -O Anaconda3-2.1.0-Windows-x86.exe
-tag = "2.1.0"
+cmd wget --no-check-certificate --no-verbose -O Anaconda3-2.1.0-Windows-x86.exe http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Windows-x86.exe
+var tag = "2.1.0"
 
 # Install
 cmd Anaconda3-2.1.0-Windows-x86.exe /S "/D=C:\Anaconda3"
