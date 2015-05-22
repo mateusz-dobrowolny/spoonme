@@ -60,7 +60,7 @@ var tag = version + "." + update
 
 # Check if version exists. If yes - break the process
 batch
-  cmd spoon tags dobrowolny/jre >> existing_versions.txt
+  spoon tags dobrowolny/jre >> existing_versions.txt
   find /c "%tag%" existing_versions.txt
   if %errorlevel% equ 0 copy null.txt null.txt
 
