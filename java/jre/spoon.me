@@ -65,11 +65,15 @@ batch
   if %errorlevel% equ 0 copy null.txt null.txt
 
 # Download
+cmd dir
 cmd "wget -O setup.exe --no-check-certificate %url%"
+cmd dir
 
 # Install
 cmd "setup.exe /s"
+
 # Update
+
 ###################################
 # Environment Variables
 ###################################
