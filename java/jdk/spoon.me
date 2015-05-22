@@ -1,6 +1,6 @@
 #
-# Oracle's Java Runtime Environment spoon.me file
-# https://github.com/spoonapps/spoonme/blob/master/java/jre/spoon.me
+# Oracle's Java Development Kit spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/java/jdk/spoon.me
 #
 # Created with Spoon CMD version 1.4.1355.0
 #
@@ -11,9 +11,9 @@
 # Meta tags
 ###################################
 
-meta title="jre"
+meta title="jdk"
 meta namespace="dobrowolny"
-meta name="jre"
+meta name="jdk"
 
 ###################################
 # Pull dependency images
@@ -36,13 +36,13 @@ workdir c:\Workspace
 
 # Get version and url fomr web
 batch
-  echo import sys > getRelease.py
-  echo import requests >> getRelease.py
-  echo import re >> getRelease.py
-  echo r = requests.get('http://java.com/en/download/manual.jsp') >> getRelease.py
-  echo version = list(re.findall('Recommended Version (\d*) Update (\d*)', r.text)[0]) >> getRelease.py
-  echo url = [re.findall('for Windows Offline^" href=^"(.*)^"', r.text)[0]] >> getRelease.py
-  echo print(version + url) >> getRelease.py
+ echo import sys > getRelease.py
+ echo import requests >> getRelease.py
+ echo import re >> getRelease.py
+ echo r = requests.get('http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html') >> getRelease.py
+ echo version = list(re.findall('Java SE Development Kit (\d*)u(\d*)', r.text)[0]) >> getRelease.py
+ echo url = [re.findall('(http.*?i586.exe)', r.text)[0]] >> getRelease.py
+ echo print(version + url) >> getRelease.py
 
 cmd python getRelease.py
 var data = last
@@ -65,10 +65,10 @@ batch
   if %errorlevel% equ 0 copy null.txt null.txt
 
 # Download
-cmd "wget -O setup.exe --no-check-certificate %url%"
+cmd "wget -O setup.exe --no-check-certificate --no-cookies --header ""Cookie: oraclelicense=accept-securebackup-cookie""  %url%"
 
 # Install
-cmd setup.exe /s
+cmd "setup.exe /s"
 
 # Update
 
@@ -77,6 +77,7 @@ cmd setup.exe /s
 ###################################
 
 env path="@PROGRAMFILESX86@\java\jre1." + version + ".0_" + update + "\bin\"
+env java_home="@PROGRAMFILESX86@\java\jdk1." + version + ".0_" + update
 
 
 ###################################
