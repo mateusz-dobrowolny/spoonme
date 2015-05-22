@@ -1,28 +1,50 @@
 #
-# Java runtime environment file
-# https://github.com/spoonapps/spoonme/tree/master/java
+# Oracle's Java Runtime Environment spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/java/jre/spoon.me
+#
+# Created with Spoon CMD version 1.4.1355.0
 #
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
 
-using wget,python:3.4.1
+###################################
+# Meta tags
+###################################
 
+meta title="jre"
+meta namespace="dobrowolny"
+meta name="jre"
+
+###################################
+# Pull dependency images
+###################################
+
+using gnu/wget,python/python:3.4.1
+
+
+###################################
+# Download and install
+###################################
+
+# Install additional python modules
 cmd pip install requests --quiet
 
+# Set working directory
 workdir c:\
 cmd mkdir c:\Workspace
+workdir c:\Workspace
 
+# Get version and url fomr web
 batch
- echo import sys > getRelease.py
- echo import requests >> getRelease.py
- echo import re >> getRelease.py
- echo r = requests.get('http://java.com/en/download/manual.jsp') >> getRelease.py
- echo version = list(re.findall('Recommended Version (\d*) Update (\d*)', r.text)[0]) >> getRelease.py
- echo url = [re.findall('for Windows Offline^" href=^"(.*)^"', r.text)[0]] >> getRelease.py
- echo print(version + url) >> getRelease.py
+  echo import sys > getRelease.py
+  echo import requests >> getRelease.py
+  echo import re >> getRelease.py
+  echo r = requests.get('http://java.com/en/download/manual.jsp') >> getRelease.py
+  echo version = list(re.findall('Recommended Version (\d*) Update (\d*)', r.text)[0]) >> getRelease.py
+  echo url = [re.findall('for Windows Offline^" href=^"(.*)^"', r.text)[0]] >> getRelease.py
+  echo print(version + url) >> getRelease.py
 
 cmd python getRelease.py
-
 var data = last
 
 cmd "python -c ""print(%data%[0])"""
@@ -34,19 +56,49 @@ var update = last
 cmd "python -c ""print(%data%[2])"""
 var url = last
 
-var tag = version + "u" + update
+var tag = version + "." + update
 
-cmd wget -O setup.exe --no-check-certificate url
+# Check if version exists. If yes - break the process
+cmd spoon tags dobrowolny/jre >> existing_versions.txt
+batch
+  find /c "%tag%" existing_versions.txt
+  if %errorlevel% equ 0 copy null.txt null.txt
 
+# Download
+cmd "wget -O setup.exe --no-check-certificate %url%"
+
+# Install
 cmd "setup.exe /s"
+# Update
+###################################
+# Environment Variables
+###################################
 
-cmd cd c:\
+env path="@PROGRAMFILESX86@\java\jre1." + version + ".0_" + update + "\bin\"
+
+
+###################################
+# Clean up
+###################################
+
+workdir c:\
 
 cmd rmdir c:\Workspace /s /q
 cmd rmdir c:\wget /s /q
+cmd rmdir c:\python34 /s /q
+# this path contains symlinks and currenlty they are not properly supported in vm
+# so remove it 
+cmd rmdir c:\ProgramData\Oracle /s /q
 
 
-meta title="jre"
-meta namespace="oracle"
-meta name="jre"
+###################################
+# Meta tags
+###################################
+
 meta tag=tag
+meta version=tag
+
+
+###################################
+# Startup File
+###################################
