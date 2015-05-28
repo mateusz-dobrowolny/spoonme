@@ -1,0 +1,79 @@
+#
+# JBoss Application Server spoon.me file
+# https://github.com/spoonapps/spoonme/blob/master/jboss/spoon.me
+#
+# Created with Spoon CMD version 1.4.1355.0
+#
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
+
+###################################
+# Meta tags
+###################################
+
+meta title="jbossas"
+meta namespace="dobrowolny"
+meta name="jbossas"
+
+
+###################################
+# Pull dependency images
+###################################
+
+using gnu/wget,7-zip/7-zip
+
+
+###################################
+# Download and install
+###################################
+
+# Set working directory
+workdir c:\
+cmd mkdir c:\Workspace
+workdir c:\Workspace
+
+# Get version
+var tag = "7.1.1"
+# Check if version exists. If yes - break the process
+cmd spoon tags 7-zip/7-zip >> existing_versions.txt
+batch
+  find /c "%tag%" existing_versions.txt
+  if %errorlevel% equ 0 copy null.txt null.txt
+
+# Download
+ 
+# cmd wget --no-check-certificate --no-verbose -O jboss.zip http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
+
+# Install
+
+cmd 7z x -oc:\JBoss
+
+# Update
+
+
+###################################
+# Environment Variables
+###################################
+
+
+###################################
+# Clean up
+###################################
+
+workdir c:\
+
+# cmd rmdir c:\Workspace /s /q
+# cmd rmdir c:\wget /s /q
+
+
+###################################
+# Meta tags
+###################################
+
+meta tag=tag
+meta version=tag
+
+
+###################################
+# Startup File
+###################################
