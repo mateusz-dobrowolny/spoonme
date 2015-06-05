@@ -40,7 +40,7 @@ batch
  echo import requests >> getRelease.py
  echo import re >> getRelease.py
  echo r = requests.get('https://jdk9.java.net/download/') >> getRelease.py
- echo version = list(re.findall('winOffline32JDK^").href = ^"httpJava SE Development Kit (\d*)u(\d*)', r.text)[0]) >> getRelease.py
+ echo version = list(re.findall('winOffline32JDK"\).href = "http://www.java.net/download/jdk9/archive/b(\d*)/.*.exe', r.text)[0])
  echo url = [re.findall('(http.*?i586.exe)', r.text)[0]] >> getRelease.py
  echo print(version + url) >> getRelease.py
 
